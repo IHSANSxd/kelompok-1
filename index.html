@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Tim kelompok 1</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif; background: #f9fafb; color: #333; 
+      line-height: 1.6; transition: background 0.5s, color 0.5s;
+    }
+    a { text-decoration: none; color: inherit; }
+    h1, h2, h3 { font-weight: bold; }
+
+    /* Navbar */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 15px 40px; display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000; transition: background 0.5s;
+    }
+    nav h1 { color: #4f46e5; font-size: 24px; transition: color 0.5s; }
+    nav .menu a { margin-left: 20px; font-weight: 500; transition: color 0.3s; }
+    nav .menu a:hover { color: #4f46e5; }
+    #darkToggle {
+      background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 20px;
+    }
+
+    /* Home */
+    #home {
+      height: 100vh; background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white; display: flex; justify-content: center; align-items: center;
+      text-align: center; padding: 20px;
+      animation: bgGradient 8s infinite alternate;
+    }
+    #home h2 { font-size: 40px; margin-bottom: 15px; animation: fadeInDown 1.5s ease; }
+    #home p { font-size: 18px; margin-bottom: 20px; animation: fadeInUp 2s ease; }
+    #home a {
+      background: white; color: #4f46e5; padding: 12px 25px; border-radius: 30px;
+      font-weight: bold; transition: 0.3s; box-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+    #home a:hover { transform: scale(1.1); box-shadow: 0 0 20px white; }
+
+    section { padding: 80px 20px; max-width: 1100px; margin: auto; }
+    section h2 { font-size: 28px; margin-bottom: 30px; text-align: center; }
+
+    #about p { text-align: center; color: #555; max-width: 700px; margin: auto; }
+
+    #team { background: #f3f4f6; transition: background 0.5s; }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .member {
+      background: white; border-radius: 15px; padding: 20px; text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.4s, box-shadow 0.4s, background 0.5s;
+    }
+    .member:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    .member img {
+      width: 200px; height: 200px; border-radius: 100%; margin-bottom: 15px;
+    }
+
+    .portfolio-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 20px;
+    }
+    .project {
+      background: white; border-radius: 15px; overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: transform 0.4s, box-shadow 0.4s, background 0.5s;
+      cursor: pointer;
+    }
+    .project:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
+    .project img { width: 100%; height: 200px; object-fit: cover; display: block; }
+    .project div { padding: 15px; }
+    .project h3 { margin-bottom: 10px; }
+
+    #contact { background: #f3f4f6; transition: background 0.5s; }
+    form { max-width: 500px; margin: auto; }
+    form input, form textarea {
+      width: 100%; padding: 12px; margin-bottom: 15px;
+      border: 1px solid #ccc; border-radius: 8px; transition: background 0.5s, color 0.5s;
+    }
+    form button {
+      background: #4f46e5; color: white; border: none;
+      padding: 12px 20px; border-radius: 30px; cursor: pointer; transition: 0.3s;
+    }
+    form button:hover { background: #3730a3; transform: scale(1.05); }
+
+    footer { text-align: center; padding: 20px; background: white; border-top: 1px solid #ddd; transition: background 0.5s; }
+
+    .hidden-section { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .show-section { opacity: 1; transform: translateY(0); }
+
+    /* ====== MODAL ====== */
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+      justify-content: center; align-items: center; z-index: 2000;
+    }
+    .modal-content {
+      background: white; padding: 20px; border-radius: 10px;
+      max-width: 800px; width: 100%; text-align: center; position: relative;
+      animation: fadeIn 0.5s ease;
+    }
+    .modal-content img { max-width: 25%; border-radius: 10px; margin-bottom: 15px; }
+    .close-btn {
+      position: absolute; top: 10px; right: 15px;
+      font-size: 24px; font-weight: bold; color: #333; cursor: pointer;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bgGradient {
+      from { background: linear-gradient(135deg, #4f46e5, #6366f1); }
+      to { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+    }
+
+    /* ====== DARK MODE ====== */
+    body.dark { background: #1a1a1a; color: #eee; }
+    body.dark nav { background: #222; }
+    body.dark nav h1 { color: #a5b4fc; }
+    body.dark .member, body.dark .project, body.dark .modal-content, body.dark footer {
+      background: #2a2a2a; color: #eee;
+    }
+    body.dark #team, body.dark #contact { background: #111; }
+    body.dark form input, body.dark form textarea { background: #333; color: #eee; border: 1px solid #555; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>kelompok 1</h1>
+    <div class="menu">
+      <a href="#home">Home</a>
+      <a href="#about">Tentang</a>
+      <a href="#team">Anggota</a>
+      <a href="#portfolio">Portofolio</a>
+      <a href="#contact">Kontak</a>
+      <button id="darkToggle">🌙</button>
+    </div>
+  </nav>
+
+  <section id="home">
+    <div>
+      <h2>Karya Terbaik dari Tim Kami</h2>
+      <p>Kolaborasi 4 orang, 1 tujuan: menciptakan yang luar biasa.</p>
+      <a href="#portfolio">Lihat Portofolio</a>
+    </div>
+  </section>
+
+  <section id="about" class="hidden-section">
+    <h2>Tentang Kami</h2>
+    <p>Kami adalah tim kreatif dengan 4 anggota, masing-masing memiliki keahlian unik di bidang desain, teknologi, dan inovasi. Bersama-sama, kami menghasilkan karya terbaik yang siap bersaing di dunia digital.</p>
+  </section>
+
+  <section id="team" class="hidden-section">
+    <h2>Anggota Tim</h2>
+    <div class="team-grid">
+      <div class="member">
+        <img src="image/ihsan.jpeg" alt="Anggota 1">
+        <h3>ihsanul amin</h3>
+        <p>pengembang web</p>
+      </div>
+      <div class="member">
+        <img src="image/novi.jpg" alt="Anggota 2">
+        <h3>novihadi</h3>
+        <p>web programmer</p>
+      </div>
+      <div class="member">
+        <img src="image/amat.jpeg" alt="Anggota 3">
+        <h3>ahmad haitami</h3>
+        <p>ahli presentasi</p>
+      </div>
+      <div class="member">
+        <img src="image/OIP.jpg" alt="Anggota 4">
+        <h3>lisa</h3>
+        <p>desainer</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio" class="hidden-section">
+  <h2>Portofolio project</h2>
+  <div class="portfolio-grid">
+    <div class="project" data-title="rfid shabit" data-desc="RFID SHABIT adalah produk buatan siswa smks shalatiyah bitin dengan scanner id card RFID MFCR255 dan sistem waktu RTCDS1302 dilengkapi modul wifi wemos d1 mini yang menghubungkan RFID SHABIT ke internet." data-img="project/Capture.png">
+      <img src="project/Capture.png" alt="Proyek 1">
+      <div>
+        <h3>RFID SHABIT</h3>
+        <p>sistem absensi arduino berbasis id card</p>
+      </div>
+    </div>
+
+    <div class="project" data-title="id card" data-desc="id card dengan chip internal yang tertanam didalamnya, tahan lama dan sangat efisien ruang." data-img="project/thumnail2.jpeg">
+      <img src="project/thumnail2.jpeg" alt="Proyek 2">
+      <div>
+        <h3>id card</h3>
+        <p>id card dengan chip internal yang tertanam didalamnya</p>
+      </div>
+    </div>
+
+    <div class="project" data-title="smart lamp & pan" data-desc="smart lamp menggunakan sensor tepuk dan dengan interface lewat hp." data-img="project/arduino.jpeg">
+      <img src="project/arduino.jpeg" alt="Proyek 3">
+      <div>
+        <h3>arduino smart lamp & pan</h3>
+        <p>lampu dan kipas yang dengan sensor suara dan kontrol lewat aplikasi</p>
+      </div>
+    </div>
+
+    <!-- Proyek 4 -->
+    <div class="project" data-title="website portofolio" data-desc="website portofolio tentang RFID SHABIT dan SMART LAMP & PAN." data-img="project/ss1.png">
+      <img src="project/ss1.png" alt="Proyek 4">
+      <div>
+        <h3>website portofolio rfid</h3>
+        <p>website pengenalan produk RFID SHABIT</p>
+      </div>
+    </div>
+
+    <!-- Proyek 5 -->
+    <div class="project" data-title="router mikrotik" data-desc="router mikrotik dengan sistem login layaknya sistem voucher wifi." data-img="project/router.jpeg">
+      <img src="project/router.jpeg" alt="Proyek 5">
+      <div>
+        <h3>router mikrotik</h3>
+        <p>router mikrotik dengan sistem voucher wifi</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section id="contact" class="hidden-section">
+    <h2>Kontak Kami</h2>
+    <p style="text-align:center; margin-bottom:20px;">Hubungi kami untuk kolaborasi atau pertanyaan lebih lanjut.</p>
+    <form id="contactForm">
+      <input type="text" placeholder="Nama" required>
+      <input type="email" placeholder="Email" required>
+      <textarea placeholder="Pesan" required></textarea>
+      <button type="submit">Kirim</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Tim Kreatif. Semua Hak Dilindungi.</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <img id="modalImg" src="" alt="">
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+    </div>
+  </div>
+  <script>
+    // Smooth scroll
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Form alert
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Terima kasih! Pesan Anda sudah terkirim.');
+      this.reset();
+    });
+
+    // Animasi fade-in
+    const hiddenSections = document.querySelectorAll('.hidden-section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show-section');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    hiddenSections.forEach(section => { observer.observe(section); });
+
+    // Modal
+	function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = "block";
+            const video = modal.querySelector('video');
+            if (video) {
+                video.play();
+            }
+        }
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const closeModal = document.getElementById("closeModal");
+
+    document.querySelectorAll(".project").forEach(proj => {
+      proj.addEventListener("click", () => {
+        modal.style.display = "flex";
+        modalImg.src = proj.dataset.img;
+        modalTitle.textContent = proj.dataset.title;
+        modalDesc.textContent = proj.dataset.desc;
+      });
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+    window.addEventListener("click", (e) => {
+      if (e.target == modal) modal.style.display = "none";
+    });
+
+    // Dark Mode
+    const darkToggle = document.getElementById("darkToggle");
+    darkToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      darkToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    });
+
+    // Music Control
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("musicToggle");
+    musicToggle.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicToggle.textContent = "🔊";
+      } else {
+        bgMusic.pause();
+        musicToggle.textContent = "🔈";
+      }
+    });
+  </script>
+
+</body>
+</html>
